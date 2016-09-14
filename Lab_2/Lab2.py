@@ -1,25 +1,5 @@
-import csv
 import re
-
-class Data:
-
-    def __init__(self, time, gender, height):
-        self.time = time
-        self.gender = gender
-        self.height = height
-
-    def __str__(self):
-        return self.time + " " + self.gender + " " + self.height
-
-def readData():
-    list = []
-    file = open("heights_raw.csv", newline="")
-    reader = csv.reader(file)
-
-    for row in reader:
-        list.append(Data(row[0], row[1], row[2]))
-
-    return list
+from Lab_2 import CSVReader
 
 def removeEmptyEntries( entries ):
     for item in entries:
@@ -37,13 +17,14 @@ def standardizeGender( entries ):
 def standardizeHeight( entries ):
     for item in entries:
         if "'" in item.height:
-            feet, inch = item.height.split("'")
-            print(item)
-            item.height = str(int(re.sub('[^0-9]','', feet))*12 + int(re.sub('[^0-9]','', inch)))
+            split = item.height.split("'");
+            feet = split[0]
+            inch = split[1]
+            item.height = str(float(re.sub('[^0-9]','', feet))*12 + float(re.sub('[^0-9]','', inch)))
             print(item)
     return entries
 
-list = readData()
+list = CSVReader.CSVReader().readData()
 print(len(list))
 
 list = removeEmptyEntries(list)
@@ -53,5 +34,5 @@ list = standardizeGender(list)
 print(len(list))
 
 list = standardizeHeight(list)
-#for item in list:
-    #print(item)
+for item in list:
+    print(item)
