@@ -15,13 +15,19 @@ def standardizeGender( entries ):
 
 #Not sorting ot everything
 def standardizeHeight( entries ):
+    non_decimal = re.compile(r'[^\d.]+')
     for item in entries:
         if "'" in item.height:
             split = item.height.split("'");
             feet = split[0]
             inch = split[1]
-            item.height = str(float(re.sub('[^0-9]','', feet))*12 + float(re.sub('[^0-9]','', inch)))
-            print(item)
+            item.height = str(float(non_decimal.sub('', feet))*12 + float(non_decimal.sub('', inch)))
+        elif "ft" in item.height or "inch" in item.height:
+            split1 = item.height.split("ft");
+            feet = split1[0]
+            split2 = item.height.split("inches");
+            inch = split2[0]
+            item.height = str(float(non_decimal.sub('', feet)) * 12 + float(non_decimal.sub('', inch)))
     return entries
 
 list = CSVReader.CSVReader().readData()
