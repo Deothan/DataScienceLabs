@@ -13,7 +13,7 @@ def standardizeGender( entries ):
             del entries[entries.index(item)]
     return entries
 
-#at one point the split gives more than 2 outputs.
+#Not sorting ot everything
 def standardizeHeight( entries ):
     for item in entries:
         if "'" in item.height:
