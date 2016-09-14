@@ -1,5 +1,5 @@
 from scipy import misc
-from scipy import ndimage as Image
+from scipy import ndimage
 from scipy.stats import threshold
 import matplotlib.pyplot as plt
 
@@ -17,34 +17,39 @@ imgGrey = misc.imread("face-resize.png",True)
 misc.imsave("faceGrey.png",imgGrey)
 
 #Load and save as binary
-imgBW = misc.imread("face-resize.png",True,"1")
-
+imgBW = misc.imread("face-resize.png",True,mode="L")
+print(imgBW.dtype)
+#open_img = ndimage.binary_opening(imgBW)
+#imgBW = ndimage.binary_closing(open_img)
+#misc.toimage(imgBW).convert("1");
 misc.imsave("faceBW.png",imgBW)
 
+plt.subplot(221)
+plt.title("Original")
+plt.imshow(imgBW,cmap='gray')
+plt.subplot(222)
+plt.title("Threshhold 0.1")
+image_threshold = .1
+label_array, n_features = ndimage.label(imgBW>image_threshold*255)
+plt.imshow(label_array,cmap='gray')
+print(label_array)
+plt.subplot(223)
+plt.title("Threshhold 0.25")
+image_threshold = .25
+label_array, n_features = ndimage.label(imgBW>image_threshold*255)
+plt.imshow(label_array,cmap='gray')
+print(label_array)
 
-#Trying to threshold
-pilImg01 = misc.toimage(imgGrey)
-pilImg01 = pilImg01.point(lambda i:i*0.1,mode="1")
-pilImg01.save("pilImg01.png")
-
-pillimg025 = misc.toimage(imgGrey)
-pillimg025 = pillimg025.point(lambda i:i*0.25,mode="1")
-pillimg025.save("pillimg025.png")
-
-pillimg05 = misc.toimage(imgGrey)
-pillimg05 = pillimg05.point(lambda i:i*0.5,mode="1")
-pillimg05.save("pillimg05.png")
-
-misc.imsave("faceBW.png",imgBW)
+plt.subplot(224)
+plt.title("Threshhold 0.5")
+image_threshold = .5
+label_array, n_features = ndimage.label(imgBW>image_threshold*255)
+plt.imshow(label_array,cmap='gray')
+misc.imsave("threshold0-5.png",label_array)
+print(label_array)
 
 
-
-plt.subplot(311)
-plt.imshow(pilImg01)
-plt.subplot(312)
-plt.imshow(pillimg025)
-plt.subplot(313)
-plt.imshow(pillimg05)
-
-
+print(imgBW)
+plt.tight_layout()
 plt.show()
+
