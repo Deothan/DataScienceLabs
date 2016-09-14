@@ -36,7 +36,7 @@ def normAndStand(oldArray):
     std = np.std(oldArray)
     print(mean)
     print(std)
-    newArray = np.empty([1001,2])
+    newArray = np.empty([len(oldArray),2])
     for i in range(1001):
         x = sample[i][0]
         y = sample[i][1]
