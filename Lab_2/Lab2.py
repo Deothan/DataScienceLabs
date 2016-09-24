@@ -1,5 +1,5 @@
 import re
-from Lab_2 import CSVReader
+import CSVReader
 
 def removeEmptyEntries( entries ):
     for item in entries:

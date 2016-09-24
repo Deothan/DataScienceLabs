@@ -1,12 +1,12 @@
 import csv
-from Lab_2.Data import Data
+from Data import Data
 
 
 class CSVReader:
 
     def __init__(self):
         self.list = []
-        self.file = open("heights_raw.csv", newline="")
+        self.file = open("heights_raw.csv")
         self.reader = csv.reader(self.file)
 
     def readData( self ):

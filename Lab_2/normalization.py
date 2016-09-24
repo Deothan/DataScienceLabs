@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import Lab_2.MinMax
-import Lab_2.ZScore
+import MinMax
+import ZScore
 
 
 mean = 5
@@ -40,10 +40,10 @@ def normAndStand(oldArray):
     for i in range(1001):
         x = sample[i][0]
         y = sample[i][1]
-        x2 = Lab_2.ZScore.zScore(x,mean,std)
-        y2 = Lab_2.ZScore.zScore(y,mean,std)
-        x3 = Lab_2.MinMax.minmax(x2,minmax[0],minmax[1])
-        y3 = Lab_2.MinMax.minmax(y2,minmax[0],minmax[1])
+        x2 = ZScore.zScore(x,mean,std)
+        y2 = ZScore.zScore(y,mean,std)
+        x3 = MinMax.minmax(x2,minmax[0],minmax[1])
+        y3 = MinMax.minmax(y2,minmax[0],minmax[1])
 
         newArray[i]=[x3,y3]
     return newArray
