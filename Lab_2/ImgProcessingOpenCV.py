@@ -2,7 +2,7 @@ import numpy as np
 from scipy import ndimage
 import matplotlib.pyplot as plt
 import cv2
-
+#Install opencv = conda install -c menpo opencv3
 
 #Create black and white image, using custon threshold
 def createBW(img, thresh):
