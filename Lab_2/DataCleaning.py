@@ -1,23 +1,39 @@
-import numpy as np
 import pandas as pd
+import re
 
-def convertToInches(tmp):
-    if "'" in tmp:
-        split = str.split(tmp,sep="'")
-        print(split)
-        return int(split[0])*12+int(split[1])
-    if "." in tmp:
-        split = str.split(tmp, sep=".")
-        if "''" in split[1]:
-            split[1][:-2]
-        return int(split[0]) * 12 + int(split[1])
+def standardizeHeight( item ):
+    non_decimal = re.compile(r'[^\d.]+')
+    if "'" in item:
+        split = item.split("'");
+        feet = split[0]
+        inch = split[1]
+        item = str(float(non_decimal.sub('', feet))*12 + float(non_decimal.sub('', inch)))
+    elif "ft" in item or "inch" in item:
+        split1 = item.split("ft");
+        feet = split1[0]
+        split2 = item.split("inches");
+        inch = split2[0]
+        item = str(float(non_decimal.sub('', feet)) * 12 + float(non_decimal.sub('', inch)))
+    elif "." in item:
+        split = item.split(".")
+        if int(split[0]) < 10:
+            item = str(int(split[0]) * 12 + int(split[1]))
+    return item
 
-file2 = pd.read_csv("heights_raw.csv")
-file2.columns = ['Time', 'Gender','Height']
-file2 = file2.dropna()
+#Loads the CSV file and changes the names of the rows
+heights = pd.read_csv('heights_raw.csv')
+heights.columns = ['Time', 'Gender', 'Height']
+print(len(heights))
 
-print(file2)
-file3 = file2.loc[(file2["Gender"]=="Female") & (file2["Gender"]== "Male")]
-print(file3)
+#Removes entries with empty values
+heights = heights.dropna()
+print(len(heights))
 
-print(convertToInches("5.7"))
+#Removes entries which are not Male or Female
+heights = heights.loc[(heights["Gender"] == "Female") | (heights["Gender"] == "Male")]
+print(len(heights))
+
+#Format the Heights
+heights["Height"] = heights["Height"].apply(lambda x:standardizeHeight(x))
+print(len(heights))
+print(heights)
