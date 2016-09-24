@@ -11,6 +11,8 @@ iris.columns = ['Id', 'SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 
 setosa = iris.loc[iris['Species'] == 'Iris-setosa'].copy()
 plt.subplot(311)
 plt.hist(setosa.iloc[:,1], 50)
+#showing info about the graph
+setosa.describe()
 
 versicolor = iris.loc[iris['Species'] == 'Iris-versicolor'].copy()
 plt.subplot(312)
