@@ -11,14 +11,29 @@ def standardizeHeight( item ):
         item = str(float(non_decimal.sub('', feet))*12 + float(non_decimal.sub('', inch)))
     elif "ft" in item or "inch" in item:
         split1 = item.split("ft");
+
         feet = split1[0]
-        split2 = item.split("inches");
+
+        split2 = split1[1].split("inches");
         inch = split2[0]
+
         item = str(float(non_decimal.sub('', feet)) * 12 + float(non_decimal.sub('', inch)))
+
     elif "." in item:
         split = item.split(".")
         if int(split[0]) < 10:
+            if int(split[1]) > 12:
+                split[1] = (1/int(split[1]))*12
             item = str(int(split[0]) * 12 + int(split[1]))
+
+    elif len(item)==1:
+        item = int(item)*12
+
+    elif int(item)>100:
+        item = int(item)/2.54
+
+
+
     return item
 
 def writeDataFrameToFile( df, filename ):
@@ -51,5 +66,5 @@ shortHeights = heights.loc[:,'Gender':'Height'].copy()
 shortHeights['Gender'] = shortHeights['Gender'].map({'Female': 0, 'Male': 1})
 
 #Writes the pandas DataFrame to txt
-#writeDataFrameToFile(shortHeights, 'heights_self_processed.txt')
+writeDataFrameToFile(shortHeights, 'heights_self_processed.txt')
 
